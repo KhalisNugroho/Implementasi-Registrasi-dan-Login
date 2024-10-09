@@ -34,7 +34,7 @@ namespace SecureWeb.Controllers
             {
                 try
                 {
-                    var user = new User
+                    var user = new Models.User
                     {
                         Username = registrationViewModel.Username,
                         Password = registrationViewModel.Password,
@@ -43,14 +43,14 @@ namespace SecureWeb.Controllers
                     _userData.Registration(user);
                     return RedirectToAction("Index", "Home");
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     ViewBag.Error = ex.Message;
                 }
             }
             return View(registrationViewModel);
         }
-        
+
         public IActionResult Login()
         {
             return View();
@@ -59,49 +59,53 @@ namespace SecureWeb.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(loginViewModel);
-            }
-
             try
             {
-                var user = new User
+                loginViewModel.ReturnUrl = loginViewModel.ReturnUrl ?? Url.Content("~/");
+                if (ModelState.IsValid)
                 {
-                    Username = loginViewModel.Username,
-                    Password = loginViewModel.Password
-                };
-
-                var loginUser = _userData.Login(user);
-                if (loginUser == null)
-                {
-                    ViewBag.Error = "Invalid login attempt.";
-                    return View(loginViewModel);
-                }
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.Username)
-                };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    principal,
-                    new AuthenticationProperties
+                    var user = new User
                     {
-                        IsPersistent = loginViewModel.RememberLogin
-                    });
+                        Username = loginViewModel.Username,
+                        Password = loginViewModel.Password
+                    };
 
-                return RedirectToAction("Index", "Home");
+                    var loginUser = _userData.Login(user);
+                    if (loginUser == null)
+                    {
+                        ViewBag.Message = "Invalid login attempt";
+                        return View(loginViewModel);
+                    }
+
+                    var claim = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.Username)
+                    };
+
+                    var identity = new ClaimsIdentity(claim, 
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+                    
+                    var principal = new ClaimsPrincipal(identity);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme, 
+                        principal,
+                        new AuthenticationProperties
+                        {
+                            IsPersistent = loginViewModel.RememberLogin
+                        });
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.Message = "Modelstate not valid";
+                }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                ViewBag.Message = ex.Message;
             }
             return View(loginViewModel);
-        }
+        }    
     }
 }

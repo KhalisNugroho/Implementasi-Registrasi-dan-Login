@@ -110,6 +110,7 @@ D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\SecureWeb.csproj.CoreCompile
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\SecureWeb.MvcApplicationPartsAssemblyInfo.cache
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\SecureWeb.RazorAssemblyInfo.cache
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\SecureWeb.RazorAssemblyInfo.cs
+D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\SecureWeb.sourcelink.json
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\staticwebassets.build.json
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\staticwebassets.development.json
 D:\KULIAH\SEMESTER 5\KTI\secureweb\obj\Debug\net8.0\staticwebassets\msbuild.SecureWeb.Microsoft.AspNetCore.StaticWebAssets.props

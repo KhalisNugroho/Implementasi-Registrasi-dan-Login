@@ -15,8 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        //ViewData["username"] = "Khalis";
-        ViewBag.username = "Khalis";
+        ViewBag.username = User.Identity.Name;
         string[] phone = new string[] { "iPhone", "Samsung", "Oppo",};
         ViewBag.phone = phone;
 
